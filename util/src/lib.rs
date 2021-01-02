@@ -12,21 +12,13 @@ pub fn get_input_path_from_args(args: Args) -> Result<String, String> {
     }
 }
 
-/// Tries to read each line from the given file into a vec of i64.
-pub fn read_input_to_vec_i64(input_path: String) -> Result<Vec<i64>, String> {
+/// Parses the input file line-by-line using the given parsing function.
+pub fn parse_input<T>(input_path: String, parser: impl Fn(&str) -> T) -> Result<Vec<T>, String> {
     let text = fs::read_to_string(input_path);
 
     match text {
         Ok(text) => {
-            let result = text
-                .split('\n')
-                .map(|value: &str| value.parse::<i64>())
-                .filter(|result| result.is_ok())
-                .map(|result| match result {
-                    Ok(value) => value,
-                    _ => 0,
-                })
-                .collect();
+            let result = text.split('\n').map(parser).collect();
 
             Ok(result)
         }

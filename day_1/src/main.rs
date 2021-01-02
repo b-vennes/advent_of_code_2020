@@ -18,7 +18,9 @@ fn n_that_sum_to_value_from_vec(n: i32, value: i64, vec: &[i64]) -> Vec<i64> {
 fn main() {
     let input_path = util::get_input_path_from_args(env::args()).unwrap();
 
-    let input = util::read_input_to_vec_i64(input_path).unwrap();
+    let parser = |val: &str| { val.parse::<i64>().unwrap() };
+
+    let input = util::parse_input(input_path, parser).unwrap();
 
     let answers = n_that_sum_to_value_from_vec(3, 2020, &input);
 
