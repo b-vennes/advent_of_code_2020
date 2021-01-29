@@ -14,11 +14,16 @@ pub fn get_input_path_from_args(args: Args) -> Result<String, String> {
 
 /// Parses the input file line-by-line using the given parsing function.
 pub fn parse_input<T>(input_path: String, parser: impl Fn(&str) -> T) -> Result<Vec<T>, String> {
+    parse_input_on_char("\n", input_path, parser)
+}
+
+/// Parses the input file line-by-line using the given parsing function.
+pub fn parse_input_on_char<T>(split_by: &str, input_path: String, parser: impl Fn(&str) -> T) -> Result<Vec<T>, String> {
     let text = fs::read_to_string(input_path);
 
     match text {
         Ok(text) => {
-            let result = text.split('\n').map(parser).collect();
+            let result = text.split(split_by).map(parser).collect();
 
             Ok(result)
         }
