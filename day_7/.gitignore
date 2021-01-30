@@ -1,0 +1,7 @@
+# scala IDE files
+.bloop
+.metals
+.vscode
+null
+project
+target
